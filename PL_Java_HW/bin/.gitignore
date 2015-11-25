@@ -2,12 +2,12 @@
 /Application.class
 /BankingException.class
 /BasicAccount.class
+/CDAccount.class
 /CheckingAccount.class
 /DepositableAccount.class
 /FullFunctionalAccount.class
 /InterestableAccount.class
-/PA1.TXT
-/WithdrawableAccount.class
-/CDAccount.class
 /LoanAccount.class
+/PA1.TXT
 /SavingAccount.class
+/WithdrawableAccount.class
