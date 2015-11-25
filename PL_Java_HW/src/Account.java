@@ -87,7 +87,7 @@ public abstract class Account {
  *      withdraw; there is a minimum balance of $1000.
  */
                           
-class CheckingAccount extends Account implements FullFunctionalAccount {
+class CheckingAccount extends Account implements FullFunctionalAccount{
 
     CheckingAccount(String s, double firstDeposit) {
         accountName = s;
@@ -108,7 +108,177 @@ class CheckingAccount extends Account implements FullFunctionalAccount {
     public double withdraw(double amount, Date withdrawDate) throws BankingException {
     // minimum balance is 1000, raise exception if violated
         if ((accountBalance  - amount) < 1000) {
-            throw new BankingException ("Underfraft from checking account name:" +
+            throw new BankingException ("Underdraft from checking account name:" +
+                                         accountName);
+        } else {
+            accountBalance -= amount;	
+            return(accountBalance); 	
+        }                                        	
+    }
+    
+    public double computeInterest (Date interestDate) throws BankingException {
+        if (interestDate.before(lastInterestDate)) {
+            throw new BankingException ("Invalid date to compute interest for account name" +
+                                        accountName);                            	
+        }
+        
+        int numberOfDays = (int) ((interestDate.getTime() 
+                                   - lastInterestDate.getTime())
+                                   / 86400000.0);
+        System.out.println("Number of days since last interest is " + numberOfDays);
+        double interestEarned = (double) numberOfDays / 365.0 *
+                                      accountInterestRate * accountBalance;
+        System.out.println("Interest earned is " + interestEarned); 
+        lastInterestDate = interestDate;
+        accountBalance += interestEarned;
+        return(accountBalance);                            
+    }  	
+}
+/*
+ *  Derived class: SavingAccount
+ *
+ *  Description:
+ *      Monthly interest; fee of $1 for every transaction, except
+ *		the first three per month are free; no minimum balance.
+ */
+                          
+class SavingAccount extends Account implements FullFunctionalAccount{
+
+	SavingAccount(String s, double firstDeposit) {
+        accountName = s;
+        accountBalance = firstDeposit;
+        accountInterestRate = 0.12;
+        openDate = new Date();
+        lastInterestDate = openDate;	
+    }
+    
+	SavingAccount(String s, double firstDeposit, Date firstDate) {
+        accountName = s;
+        accountBalance = firstDeposit;
+        accountInterestRate = 0.12;
+        openDate = firstDate;
+        lastInterestDate = openDate;	
+    }	
+    
+    public double withdraw(double amount, Date withdrawDate) throws BankingException {
+    // minimum balance is 1000, raise exception if violated
+        if ((accountBalance  - amount) < 1000) {
+            throw new BankingException ("Underdraft from checking account name:" +
+                                         accountName);
+        } else {
+            accountBalance -= amount;	
+            return(accountBalance); 	
+        }                                        	
+    }
+    
+    public double computeInterest (Date interestDate) throws BankingException {
+        if (interestDate.before(lastInterestDate)) {
+            throw new BankingException ("Invalid date to compute interest for account name" +
+                                        accountName);                            	
+        }
+        
+        int numberOfDays = (int) ((interestDate.getTime() 
+                                   - lastInterestDate.getTime())
+                                   / 86400000.0);
+        System.out.println("Number of days since last interest is " + numberOfDays);
+        double interestEarned = (double) numberOfDays / 365.0 *
+                                      accountInterestRate * accountBalance;
+        System.out.println("Interest earned is " + interestEarned); 
+        lastInterestDate = interestDate;
+        accountBalance += interestEarned;
+        return(accountBalance);                            
+     }  	
+}
+/*
+ *  Derived class: CDAccount
+ *
+ *  Description:
+ *      monthly interest; fixed amount and duration (e.g., you can open
+ * 		1 12-month CD for $5000; for the next 12 months you can't deposit
+ * 		anything and withdrawals cost a  $250 fee); at the end of the 
+ * 		duration the interest payments stop and you can withdraw w/o fee.
+ */
+                          
+class CDAccount extends Account implements FullFunctionalAccount{
+
+	CDAccount(String s, double firstDeposit) {
+        accountName = s;
+        accountBalance = firstDeposit;
+        accountInterestRate = 0.12;
+        openDate = new Date();
+        lastInterestDate = openDate;	
+    }
+    
+	CDAccount(String s, double firstDeposit, Date firstDate) {
+        accountName = s;
+        accountBalance = firstDeposit;
+        accountInterestRate = 0.12;
+        openDate = firstDate;
+        lastInterestDate = openDate;	
+    }	
+    
+    public double withdraw(double amount, Date withdrawDate) throws BankingException {
+    // minimum balance is 1000, raise exception if violated
+        if ((accountBalance  - amount) < 1000) {
+            throw new BankingException ("Underdraft from checking account name:" +
+                                         accountName);
+        } else {
+            accountBalance -= amount;	
+            return(accountBalance); 	
+        }                                        	
+    }
+    
+    public double computeInterest (Date interestDate) throws BankingException {
+        if (interestDate.before(lastInterestDate)) {
+            throw new BankingException ("Invalid date to compute interest for account name" +
+                                        accountName);                            	
+        }
+        
+        int numberOfDays = (int) ((interestDate.getTime() 
+                                   - lastInterestDate.getTime())
+                                   / 86400000.0);
+        System.out.println("Number of days since last interest is " + numberOfDays);
+        double interestEarned = (double) numberOfDays / 365.0 *
+                                      accountInterestRate * accountBalance;
+        System.out.println("Interest earned is " + interestEarned); 
+        lastInterestDate = interestDate;
+        accountBalance += interestEarned;
+        return(accountBalance);                            
+    }
+}
+
+/*
+ *  Derived class: LoanAccount
+ *
+ *  Description:
+ *      like a saving account, but the balance is "negative" (you owe
+ * 		the bank money, so a deposit will reduce the amount of the loan);
+ * 		you can't withdraw (i.e., loan more money) but of course you can 
+ * 		deposit (i.e., pay off part of the loan).
+ */
+                          
+class LoanAccount extends Account implements FullFunctionalAccount{
+
+	LoanAccount(String s, double firstDeposit) {
+        accountName = s;
+        accountBalance = firstDeposit;
+        accountInterestRate = 0.12;
+        openDate = new Date();
+        lastInterestDate = openDate;	
+    }
+    
+	LoanAccount(String s, double firstDeposit, Date firstDate) {
+        accountName = s;
+        accountBalance = firstDeposit;
+        accountInterestRate = 0.12;
+        openDate = firstDate;
+        lastInterestDate = openDate;	
+    }	
+    
+    public double withdraw(double amount, Date withdrawDate) throws BankingException {
+    // minimum balance is 1000, raise exception if violated
+        if ((accountBalance  - amount) < 1000) {
+            throw new BankingException ("Underdraft from checking account name:" +
                                          accountName);
         } else {
             accountBalance -= amount;	
