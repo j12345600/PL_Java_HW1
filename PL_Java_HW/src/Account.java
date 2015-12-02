@@ -201,6 +201,7 @@ class SavingAccount extends Account implements FullFunctionalAccount{
                 } 
     		else {
     	            accountBalance -= (amount+1);	
+    	            System.out.println("Fee 1$ is charged!");
     	            return(accountBalance); 	
     	        } 
     	}
@@ -218,6 +219,7 @@ class SavingAccount extends Account implements FullFunctionalAccount{
     	else{
     	//charging 1$ transaction fee
 			accountBalance += (amount-1);
+			System.out.println("Fee 1$ is charged!");
     	}
     	return (accountBalance); 
     }
@@ -315,6 +317,7 @@ class CDAccount extends Account implements FullFunctionalAccount{
                                          accountName);
     		} else {
             accountBalance -= (amount+250);	
+            System.out.println("Fee 250$ is charged!");
             return(accountBalance); 	
     		}    
     	}
